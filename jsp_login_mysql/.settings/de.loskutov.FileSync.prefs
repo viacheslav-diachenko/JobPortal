@@ -1,0 +1,10 @@
+WARNING=DO NOT MODIFY THIS FILE IF YOU DON'T UNDERSTAND
+defaultDestination=G\:/Google Drive/Java-Courses/Eclipse-projects/jsp_login_mysql
+defaultVariables=
+eclipse.preferences.version=1
+includeTeamPrivateFiles=false
+map|0=/|,|,|,|,
+map|1=.settings|,|,|,|,
+map|2=src|,|,|,|,
+map|3=target|,|,|,|,
+useCurrentDateForDestinationFiles=false
