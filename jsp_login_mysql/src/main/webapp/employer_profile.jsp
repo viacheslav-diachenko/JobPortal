@@ -39,7 +39,7 @@
 .modal-content {
 	position: relative;
 	background-color: #fefefe;
-	margin: auto;
+	 margin: auto; 
 	padding: 0;
 	border: 1px solid #888;
 	width: 30%;
@@ -106,6 +106,28 @@ to {
 	background-color: #5cb85c;
 	color: white;
 }
+
+.jobTable {
+	margin-left: 20px;
+}
+
+.jobRow td {
+	background-color: #F7F7F7; 
+	border: 1px solid;
+	padding: 6px;
+	margin: 10px;
+}
+
+.tableHeader td {
+	font-weight: bold;
+	border: 1px solid;
+	padding: 6px;
+	margin: 10px;
+	background-color: #87CEFA;
+}
+
+body {margin:5px;padding:0px}
+
 </style>
 <title>Insert title here</title>
 </head>
@@ -134,21 +156,37 @@ to {
 
 			out.print("<h1 style='display: inline' id='company'>" + cn
 					+ "</h1><br><h2 style='display: inline'>company profile</h2>");
-			out.print("<br><br>Web site: <a id='siteurl' href='" + ws + "'>" + ws + "</a><hr><br>");
+			out.print("<br>Web site: <a id='siteurl' href='" + ws + "'>" + ws + "</a><br>");
+			out.print("User Id: " + userid);
+			out.print("<br><br><a href='logout.jsp'>Log out</a><hr>");
+			
 			
 			rs = st.executeQuery("select * from job where companyId = " + companyId);
-			if(rs.next()) {
-				out.print("<table border=1>");
+			if(rs.next()) {				 
+				out.print("<table class='jobTable'>");
+				out.print("<tr class='tableHeader'><td>Job ID</td><td>Vacancy City</td><td>Job position</td><td>Salary</td></tr>");
+				String city = rs.getString("city");
+				String position = rs.getString("post");
+				int salary = rs.getInt("salary");
+				int jobid = rs.getInt("id");
+				String jobInfo = rs.getString("job_desc");
+				out.print("<tr class='jobRow'>");
+				out.print("<td>" + jobid + "</td>");
+				out.print("<td>" + city + "</td>");
+				out.print("<td>" + position + "</td>");
+				out.print("<td>" + salary + "</td>");
+				out.print("</tr>");
 				while(rs.next()) {
-					String city = rs.getString("city");
-					String position = rs.getString("post");
-					int salary = rs.getInt("salary");
-					String jobInfo = rs.getString("job_desc");
-					out.print("<tr>");
+					city = rs.getString("city");
+					position = rs.getString("post");
+					salary = rs.getInt("salary");
+					jobid = rs.getInt("id");
+					jobInfo = rs.getString("job_desc");
+					out.print("<tr class='jobRow'>");
+					out.print("<td>" + jobid + "</td>");
 					out.print("<td>" + city + "</td>");
 					out.print("<td>" + position + "</td>");
 					out.print("<td>" + salary + "</td>");
-					out.print("<td>" + jobInfo + "</td>");
 					out.print("</tr>");
 				}
 			out.print("</table>");								
@@ -164,7 +202,7 @@ to {
 	<!-- Trigger/Open The Modal -->
 	<br>
 	<button id="myBtn">Add a new vacancy</button>
-
+	
 	<!-- The Modal -->
 	<div id="myModal" class="modal">
 
@@ -208,7 +246,7 @@ to {
 							<label class="col-md-4 control-label" for="city">City</label>
 							<div class="col-md-7">
 								<input id="city" name="city" type="text"
-									placeholder="Enter the City" class="form-control input-md">
+									placeholder="Enter the City" class="form-control input-md" required="">
 
 							</div>
 						</div>
@@ -219,14 +257,13 @@ to {
 							<div class="col-md-7">
 								<!-- <input id="position" name="position" type="text" placeholder="Enter the position" class="form-control input-md"> -->
 								<select id="jobRole" name="jobRole" class="form-control">
-									<option value="sysadmin">Systems Administrator</option>
-									<option value="sysarchitect">Systems Architect</option>
-									<option value="qaEngineer">Q&amp;A Engineer</option>
-									<option value="feDeveloper">Front-End developer</option>
-									<option value="beDeveloper">Back-End developer</option>
-									<option value="ba">Business analyst</option>
-									<option value="consultant">ERP or CRM systems
-										consultant</option>
+									<option value="Systems Administrator">Systems Administrator</option>
+									<option value="Systems Architect">Systems Architect</option>
+									<option value="QA Engineer">QA Engineer</option>
+									<option value="Front-End developer">Front-End developer</option>
+									<option value="Back-End developer">Back-End developer</option>
+									<option value="Business analyst">Business analyst</option>
+									<option value="ERP or CRM systems consultant">ERP or CRM systems consultant</option>
 								</select>
 							</div>
 						</div>

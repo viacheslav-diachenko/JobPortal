@@ -4,7 +4,7 @@
     Author     : Chinmay vivek
 --%>
 
-<%@ page import ="java.sql.*" %>
+<%@ page session="true" import ="java.sql.*" %>
 <%
     try{
         
@@ -19,13 +19,27 @@
     Statement st = con.createStatement();
     ResultSet rs;
     rs = st.executeQuery("select * from login where uname='" + user + "' and pass='" + pwd + "'");    
+    //out.println("select was successful <br>" );
     if (rs.next()) {
-        session.setAttribute("used", user);
-        out.println("welcome very much" + user);
-        out.println("<a href='logout.jsp'>Log out</a>");
-        response.sendRedirect("success.jsp");
+        int userid = rs.getInt("id"); 
+        //out.println("User ID: " + userid + "<br>" );
+        session.setAttribute("user", user);
+        String userType = rs.getString("userType");
+        //out.println("User Type: " + userType + "<br>");
+        if(userType.equals("Employer")) {
+	        rs = st.executeQuery("select * from employer where userid ='" + userid + "'");
+        	if(rs.next()) {
+	        	String companyName = rs.getString("companyName"); 
+        		String website = rs.getString("website");
+            	session.setAttribute("companyName", companyName);
+            	session.setAttribute("website", website);
+            	session.setAttribute("userid", userid);
+        		response.sendRedirect("employer_profile.jsp");
+        		//out.print("Company name: " + companyName);
+        	}
+        }
     } else {
-        out.println("Invalid password <a href='index.jsp'>try again</a>. You entered " + user + " / " + pwd);
+        out.println("Invalid lofin or password <a href='index.jsp'>try again</a>. You entered " + user + " / " + pwd);
     }
          
    }

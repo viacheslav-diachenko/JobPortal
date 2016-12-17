@@ -17,10 +17,10 @@
 		String city = request.getParameter("city");
 		String position = request.getParameter("jobRole");
 		String salary = request.getParameter("salary");
-		String comments = request.getParameter("comments");
-		String companyId = (String)session.getAttribute("companyId");
-		
-		Class.forName("com.mysql.jdbc.Driver");
+		String jobDesc = request.getParameter("jobDesc");
+		Integer companyId = (Integer)session.getAttribute("companyId");
+				
+ 		Class.forName("com.mysql.jdbc.Driver");
 
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/job_portal?useSSL=false",
 				"root", "root#12345");
@@ -28,14 +28,17 @@
 		ResultSet rs;
 		rs = st.executeQuery("select id from login ORDER BY id DESC LIMIT 1");
 		if (rs.next()) {
+			if(salary == null) {
+				salary = "N/A";
+			}
 			int userid = rs.getInt("id");
 			session.setAttribute("userid", userid);
 			st.executeUpdate(
 					"insert into job(companyId, city, post, salary, job_desc) values ('"
-							+ companyId + "','" + city + "','" + position + "','" + salary + "','" + comments +"')");
+							+ companyId + "','" + city + "','" + position + "','" + salary + "','" + jobDesc +"')");
 			response.sendRedirect("employer_profile.jsp");
 
-		}		
+		} 		
 		
 		//out.print("Congratulations " + userid + "! You successfully registred as an" + userType);	         
 	} catch (Exception e) {
